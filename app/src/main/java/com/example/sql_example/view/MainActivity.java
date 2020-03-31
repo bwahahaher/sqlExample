@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             final String password = inputPassword.getText().toString();
             User user = usersInteractor.getUser(login, password);
             if (user != null) {
-                Toast.makeText(this, "Вход выполнен", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Вход выполнен!", Toast.LENGTH_SHORT).show();
                   SignUp(user.id);
             } else {
                 Toast.makeText(this, "Логин или пароль неверны", Toast.LENGTH_SHORT).show();
