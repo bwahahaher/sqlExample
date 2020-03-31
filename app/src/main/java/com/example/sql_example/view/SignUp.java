@@ -45,11 +45,11 @@ public class SignUp extends AppCompatActivity {
             usersInteractor = new UsersInteractor(this);
             allUsersList = usersInteractor.getAllUsers();
             HashMap<Integer, String> myFriends = new HashMap<>();
-            usersInteractor.insertFriend(usId,1, "request");
+//            usersInteractor.insertFriend(usId,1, "request");
 //            Такое добавление нового друга не работает
             backButton=findViewById(R.id.backToLogin);
 
-            myFriends=usersInteractor.getFriends(usId);
+//            myFriends=usersInteractor.getFriends(usId);
 //            Получение хэшмапа <id, isConfirm> тоже чето нет
             User me = usersInteractor.getUserName(usId);
             HiMyNameIs.setText(me.name);
