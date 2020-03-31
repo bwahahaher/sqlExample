@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
             if ( usersInteractor.LoginCheck(login)==null && usersInteractor.insertUser(login, password)) {
                 Toast.makeText(this, "Пользователь зарегестрирован", Toast.LENGTH_SHORT).show();
                 fillInputLogin();
-
             } else {
                 Toast.makeText(this, "Логин уже ипользуется", Toast.LENGTH_SHORT).show();
             }

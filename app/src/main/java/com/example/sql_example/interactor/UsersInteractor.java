@@ -18,8 +18,8 @@ public class UsersInteractor {
     public boolean insertUser(String name, String password) {
         return repository.insertUser(name, password);
     }
-    public boolean insertFriend(int i1, int id2) {
-        return repository.insertFriend(i1, id2);
+    public boolean insertFriend(int i1, int id2, String request) {
+        return repository.insertFriend(i1, id2, request);
     }
 
     public User getUser(String name, String password) {

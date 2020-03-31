@@ -28,9 +28,9 @@ public class DatabaseRepository {
             return true;
         }
     }
-    public boolean insertFriend(int firstId, int secondId){
+    public boolean insertFriend(int firstId, int secondId, String request){
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        db.execSQL(SQLScripts.insertFriendScript(firstId, secondId));
+        db.execSQL(SQLScripts.insertFriendScript(firstId, secondId, request));
         return true;
     }
 
@@ -90,25 +90,13 @@ public class DatabaseRepository {
     public String LoginCheck(String name) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         Cursor userCursor = db.rawQuery(SQLScripts.TestOutput(name), null);
-        // Cтавим позицию курсора на первую строку выборки
-        // Eсли в выборке нет строк, вернется false
         if (userCursor.moveToFirst()) {
-            // определяем номера столбцов по имени в выборке
-            int idColIndex = userCursor.getColumnIndex("id");
             int nameColIndex = userCursor.getColumnIndex("name");
-            int passwordColIndex = userCursor.getColumnIndex("password");
-
             do {
                 String userLog;
-                // получаем значения по номерам столбцов
-                User user = new User(userCursor.getString(idColIndex),
-                        userCursor.getString(nameColIndex),
-                        userCursor.getString(passwordColIndex));
                 userLog=userCursor.getString(nameColIndex);
                 userCursor.close();
                 return userLog;
-                // переход на следующую строку
-                // а если следующей нет (текущая - последняя), то false - выходим из цикла
             } while (userCursor.moveToNext());
         } else {
             userCursor.close();
@@ -160,12 +148,9 @@ public class DatabaseRepository {
 
             HashMap<Integer, String> MyFriends = new HashMap<>();
             do {
-                // получаем значения по номерам столбцов
                 int friendId = Integer.parseInt(userCursor.getString(userId));
                 String isConfirm = userCursor.getString(Confirm);
                 MyFriends.put(friendId, isConfirm);
-                // переход на следующую строку
-                // а если следующей нет (текущая - последняя), то false - выходим из цикла
             } while (userCursor.moveToNext());
             userCursor.close();
             return MyFriends;

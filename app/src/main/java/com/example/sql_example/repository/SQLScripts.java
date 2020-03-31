@@ -10,20 +10,21 @@ public class SQLScripts {
     }
     public static String initFriendship(){
         return "create table friendship(" +
-                "id integer primary key autoincrement" +
+                "id integer primary key autoincrement not null" +
                 "firstUserId integer not null," +
                 "secondUserId integer not null," +
                 "isConfirm boolean not null);";
 
     }
-    public static String insertFriendScript(int id1, int id2) {
+    public static String insertFriendScript(int id1, int id2, String request) {
         int firstId = id1;
         int secondId = id2;
+        String Request = "\""+request+"\"";
 
         return "insert into friendship" +
                 "(firstUserId, secondUserId, isConfirm)" +
                 "values" +
-                "(" + firstId + "," + secondId + "," + true +
+                "(" + firstId + "," + secondId + "," + Request +
                 ");";
 
     }
