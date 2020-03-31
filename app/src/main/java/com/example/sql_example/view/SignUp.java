@@ -59,7 +59,7 @@ public class SignUp extends AppCompatActivity {
             com.example.sql_example.view.RecyclerAdapter userAdapter = new com.example.sql_example.view.RecyclerAdapter(allUsersList);
             RecyclerView contactList = findViewById(R.id.contactRecyclerView);
 
-//        contactList.setLayoutManager(new LinearLayoutManager(this));
+            contactList.setLayoutManager(new LinearLayoutManager(this));
             contactList.setLayoutManager(new GridLayoutManager(this, 1));
             contactList.setAdapter(userAdapter);
 
