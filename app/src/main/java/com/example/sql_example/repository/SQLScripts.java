@@ -4,13 +4,13 @@ public class SQLScripts {
     public static String initDbScript() {
         return "create table user(" +
                 "id integer primary key autoincrement not null," +
-                "name text primary key not null," +
+                "name text not null," +
                 "password text not null" +
                 ");";
     }
     public static String initFriendship(){
         return "create table friendship(" +
-                "id integer primary key autoincrement not null" +
+                "id integer primary key autoincrement not null," +
                 "firstUserId integer not null," +
                 "secondUserId integer not null," +
                 "isConfirm boolean not null);";

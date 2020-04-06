@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -36,17 +34,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        test=findViewById(R.id.textView);
+        test = findViewById(R.id.textView);
         init();
         initListeners();
-
     }
 
-
     private void initListeners() {
-        inputLogin.setOnItemClickListener((parent, view, position, id) -> {
-            inputPassword.setText(lastFiveUsersList.get(position).password);
-        });
+        inputLogin.setOnItemClickListener((parent, view, position, id) ->
+                inputPassword.setText(lastFiveUsersList.get(position).password));
 
         buttonLogin.setOnClickListener((v) -> {
             final String login = inputLogin.getText().toString();
@@ -54,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             User user = usersInteractor.getUser(login, password);
             if (user != null) {
                 Toast.makeText(this, "Вход выполнен!", Toast.LENGTH_SHORT).show();
-                  SignUp(user.id);
+                signUp(user.id);
             } else {
                 Toast.makeText(this, "Логин или пароль неверны", Toast.LENGTH_SHORT).show();
             }
@@ -62,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         buttonRegister.setOnClickListener((v) -> {
             final String login = inputLogin.getText().toString();
             final String password = inputPassword.getText().toString();
-            if ( usersInteractor.LoginCheck(login)==null && usersInteractor.insertUser(login, password)) {
+            if (usersInteractor.LoginCheck(login) == null && usersInteractor.insertUser(login, password)) {
                 Toast.makeText(this, "Пользователь зарегестрирован", Toast.LENGTH_SHORT).show();
                 fillInputLogin();
             } else {
@@ -93,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
         usersInteractor = new UsersInteractor(this);
         fillInputLogin();
     }
-    private void SignUp(String id){
+
+    private void signUp(String id) {
         Intent intent = new Intent(MainActivity.this, SignUp.class);
         intent.putExtra("id", id);
         startActivity(intent);

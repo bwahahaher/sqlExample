@@ -104,10 +104,6 @@ public class DatabaseRepository {
         }
     }
 
-
-
-
-
     public ArrayList<User> getUsers(int limit) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         Cursor userCursor = db.rawQuery(SQLScripts.getAllUsersScript(limit), null);

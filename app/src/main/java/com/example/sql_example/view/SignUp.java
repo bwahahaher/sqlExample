@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,89 +34,90 @@ public class SignUp extends AppCompatActivity {
     Button button;
     TextView HiMyNameIs;
     ArrayList<User> allUsersList;
+
     public int usId;
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_sign_up);
-            Intent getIntent=getIntent();
-            usId = Integer.parseInt(getIntent.getStringExtra("id"));
-            button = findViewById(R.id.button);
-            HiMyNameIs=findViewById(R.id.userNameId);
-            usersInteractor = new UsersInteractor(this);
-            allUsersList = usersInteractor.getAllUsers();
-            HashMap<Integer, String> myFriends = new HashMap<>();
-//            usersInteractor.insertFriend(usId,1, "request");
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_up);
+        Intent getIntent = getIntent();
+        usId = Integer.parseInt(getIntent.getStringExtra("id"));
+        button = findViewById(R.id.button);
+        HiMyNameIs = findViewById(R.id.userNameId);
+        usersInteractor = new UsersInteractor(this);
+        allUsersList = usersInteractor.getAllUsers();
+        HashMap<Integer, String> myFriends = new HashMap<>();
+        usersInteractor.insertFriend(usId, 1, "request");
 //            Такое добавление нового друга не работает
-            backButton=findViewById(R.id.backToLogin);
+        backButton = findViewById(R.id.backToLogin);
 
-//            myFriends=usersInteractor.getFriends(usId);
+        myFriends = usersInteractor.getFriends(usId);
+        System.out.println("test");
+        System.out.println("firends " + myFriends.toString());
 //            Получение хэшмапа <id, isConfirm> тоже чето нет
-            User me = usersInteractor.getUserName(usId);
-            HiMyNameIs.setText(me.name);
+        User me = usersInteractor.getUserName(usId);
+        HiMyNameIs.setText(me.name);
+
+        com.example.sql_example.view.RecyclerAdapter userAdapter = new com.example.sql_example.view.RecyclerAdapter(allUsersList);
+        RecyclerView contactList = findViewById(R.id.contactRecyclerView);
+
+        contactList.setLayoutManager(new LinearLayoutManager(this));
+        contactList.setLayoutManager(new GridLayoutManager(this, 1));
+        contactList.setAdapter(userAdapter);
+
+    }
+}
+
+class RecyclerAdapter extends RecyclerView.Adapter<com.example.sql_example.view.ContactVH> {
+    final ArrayList<User> userList;
 
 
-
-            com.example.sql_example.view.RecyclerAdapter userAdapter = new com.example.sql_example.view.RecyclerAdapter(allUsersList);
-            RecyclerView contactList = findViewById(R.id.contactRecyclerView);
-
-            contactList.setLayoutManager(new LinearLayoutManager(this));
-            contactList.setLayoutManager(new GridLayoutManager(this, 1));
-            contactList.setAdapter(userAdapter);
-
-        }
+    public RecyclerAdapter(ArrayList<User> userList) {
+        this.userList = userList;
     }
 
-    class RecyclerAdapter extends RecyclerView.Adapter<com.example.sql_example.view.ContactVH> {
-        final ArrayList<User> userList;
 
-
-        public RecyclerAdapter(ArrayList<User> userList) {
-            this.userList = userList;
-        }
-
-
-
-        @NonNull
-        @Override
-        public com.example.sql_example.view.ContactVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View contactView = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
-            return new com.example.sql_example.view.ContactVH(contactView);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull com.example.sql_example.view.ContactVH holder, int position) {
-            User user = userList.get(position);
-            holder.bind(user);
-        }
-
-        @Override
-        public int getItemCount() {
-            return userList.size();
-        }
+    @NonNull
+    @Override
+    public com.example.sql_example.view.ContactVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View contactView = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
+        return new com.example.sql_example.view.ContactVH(contactView);
     }
 
-    class ContactVH extends RecyclerView.ViewHolder {
-        TextView name;
-        Button button;
+    @Override
+    public void onBindViewHolder(@NonNull com.example.sql_example.view.ContactVH holder, int position) {
+        User user = userList.get(position);
+        holder.bind(user);
+    }
 
-        public ContactVH(@NonNull View itemView) {
-            super(itemView);
-            name = itemView.findViewById(R.id.name);
-            button = itemView.findViewById(R.id.button);
+    @Override
+    public int getItemCount() {
+        return userList.size();
+    }
+}
+
+class ContactVH extends RecyclerView.ViewHolder {
+    TextView name;
+    Button button;
+
+    public ContactVH(@NonNull View itemView) {
+        super(itemView);
+        name = itemView.findViewById(R.id.name);
+        button = itemView.findViewById(R.id.button);
 
 
-        }
+    }
 
-        public void bind(User user) {
-            name.setText(user.name);
-            button.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    button.setText("Заявка отправлена!");
-                }
-            });
+    public void bind(User user) {
+        name.setText(user.name);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                button.setText("Заявка отправлена!");
+            }
+        });
 
 
-        }
+    }
 }
